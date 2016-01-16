@@ -8,6 +8,7 @@ use Test::Most;
 use Test::Schema::Artist;
 use Test::Structs;
 use List::Util 'sum';
+use JSON::MaybeXS;
 
 sub t {
     my $i = 0;
@@ -37,4 +38,19 @@ my $artist = Artist(
     albums => [ $tuf ],
 );
 
-print $mapper->to_json($artist);
+my $from_json = decode_json( $mapper->to_json($artist) );
+
+is_deeply( $from_json, {
+   albums => [
+      {
+         name => "The Unforgettable Fire",
+         runtime => "0:42:37",
+         trackCount => 10,
+         year => 1984
+      }
+   ],
+   name => "U2",
+   wikipedia => "https://en.wikipedia.org/wiki/U2"
+});
+
+done_testing;
