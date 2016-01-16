@@ -7,7 +7,7 @@ use Exporter 'import';
 our @EXPORT = qw/Album Artist Track/;
 
 struct Album => [qw/
-    title tracks year
+    title tracks year artist
 /];
 
 struct Artist => [qw/
