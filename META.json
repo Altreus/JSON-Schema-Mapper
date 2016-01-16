@@ -1,0 +1,69 @@
+{
+   "abstract" : "Assists in converting data objects to JSON via JSON schemata",
+   "author" : [
+      "Alastair McGowan-Douglas <altreus@altre.us>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 5.037, CPAN::Meta::Converter version 2.150005",
+   "license" : [
+      "bsd"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "JSON-Schema-Mapper",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "xt",
+         "inc",
+         "share",
+         "eg",
+         "examples"
+      ]
+   },
+   "prereqs" : {
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "JSON::MaybeXS" : "0",
+            "Moose" : "0",
+            "Scalar::IfDefined" : "0"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "List::Util" : "0",
+            "Struct::Dumb" : "0"
+         }
+      }
+   },
+   "provides" : {
+      "JSON::Schema::Mapper" : {
+         "file" : "lib/JSON/Schema/Mapper.pm",
+         "version" : "0.001"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/Altreus/JSON-Schema-Mapper/issues"
+      },
+      "homepage" : "https://github.com/Altreus/JSON-Schema-Mapper",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/Altreus/JSON-Schema-Mapper.git",
+         "web" : "https://github.com/Altreus/JSON-Schema-Mapper"
+      }
+   },
+   "version" : "0.001",
+   "x_contributors" : [
+      "Alastair McGowan-Douglas <alastair.mcgowan@opusvl.com>"
+   ]
+}
+

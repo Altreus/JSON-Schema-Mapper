@@ -108,7 +108,7 @@ $obj->dbic_relation >> (remember - this returns one thing) is converted to the
 JSON object that goes under C<jsonEquivalent>.
 
 In this format, the hashref should therefore only have a single key; it is this
-key name that determines the new name for the related object. 
+key name that determines the new name for the related object.
 
 Here's a more thorough example. First, the JSON-Schema document; then the
 mapping that pulls the album information out of the Track object.
@@ -232,6 +232,9 @@ The above example could be rewritten more generically:
         other_kvp_magic_field => $map_kvp_data,
     }
 
-would produce C<variableData> and C<otherKvpMagicField> in the output.
+would produce C<variableData> and C<otherKvpMagicField> in the output. Note in
+this case the field name is not used to access the object; your coderef is
+passed the object and the field name, not the result of calling the field as a
+method.
 
 =cut
