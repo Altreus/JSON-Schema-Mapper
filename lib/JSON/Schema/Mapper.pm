@@ -53,7 +53,7 @@ C<application/schema+json>.
         }
     }
 
-=cut 
+=cut
 
 has json_schema => (
     is => 'ro',
@@ -132,13 +132,22 @@ sub _map_value ($self, $obj, $field, $spec) {
         elsif (ref $inner_spec eq 'ARRAY') {
             # when $inner_spec is an arrayref, it's many related objects.
             ($inner_spec) = @$inner_spec;
-            $value = [ map $self->_map_href($_, $inner_spec), $obj->$ifdef($field) ];
+
+            # If it returns a single unblessed arrayref it needs to be deref'd.
+            # We can only work on blessed related things. Observe that
+            # $inner_spec must be a hashref, so it must be a map itself.
+            my @inner = $obj->$ifdef($field);
+            if (ref $inner[0] and ref $inner[0] eq 'ARRAY') {
+                @inner = @{ $inner[0] };
+            }
+
+            $value = [ map $self->_map_href($_, $inner_spec), @inner ];
         }
         return ($json_field => $value);
     }
 
     if (ref $spec eq 'CODE') {
-        return $spec->($obj, $field);    
+        return $spec->($obj, $field);
     }
 
 }
@@ -186,7 +195,7 @@ $obj->dbic_relation >> (remember - this returns one thing) is converted to the
 JSON object that goes under C<jsonEquivalent>.
 
 In this format, the hashref should therefore only have a single key; it is this
-key name that determines the new name for the related object. 
+key name that determines the new name for the related object.
 
 Here's a more thorough example. First, the JSON-Schema document; then the
 mapping that pulls the album information out of the Track object.
@@ -310,4 +319,14 @@ The above example could be rewritten more generically:
         other_kvp_magic_field => $map_kvp_data,
     }
 
-would produce C<variableData> and C<otherKvpMagicField> in the output.
+would produce C<variableData> and C<otherKvpMagicField> in the output. Note in
+this case the field name is not used to access the object; your coderef is
+passed the object and the field name, not the result of calling the field as a
+method.
+
+B<Note:> When the map calls for an array, an arrayref will be dereferenced if
+the accessor returns one. This is because the structure requires an inner
+mapping of the related objects, which means they must be blessed references on
+which further accessors can be called. If you truly want to handle an unblessed
+arrayref at this point, you should use a coderef instead of the array
+structure.
