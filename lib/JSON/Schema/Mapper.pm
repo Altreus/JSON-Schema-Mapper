@@ -1,8 +1,6 @@
 package JSON::Schema::Mapper;
 
 use Moose::Role;
-use experimental 'signatures';
-no warnings 'experimental::signatures';
 use JSON::MaybeXS ();
 use Scalar::IfDefined qw($ifdef);
 
@@ -95,7 +93,8 @@ Assumes all things in the C<map> are callable as methods on the object.
 
 =cut
 
-sub to_json ($self, $obj) {
+sub to_json {
+    my ($self, $obj) = @_;
     die "No object to encode" unless defined $obj;
 
     JSON::MaybeXS
@@ -105,7 +104,8 @@ sub to_json ($self, $obj) {
 
 # Uses $map (a hashref) to turn $obj into a hashref. $map will originally come
 # from $self->map but may be a nested hashref further down.
-sub _map_href ($self, $obj, $map) {
+sub _map_href {
+    my ($self, $obj, $map) = @_;
     +{
         map { $self->_map_value($obj, $_, $map->{$_}) }
         keys %$map
@@ -113,7 +113,8 @@ sub _map_href ($self, $obj, $map) {
 }
 
 # given $object and ( $object_field => $spec ), return ( $json_field => $value )
-sub _map_value ($self, $obj, $field, $spec) {
+sub _map_value {
+    my ($self, $obj, $field, $spec) = @_;
     my ($json_field, $value);
 
     if (not ref $spec) {
